@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProfissionalController;
+use App\Http\Controllers\ServicoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,5 +31,11 @@ Route::post('/profissionais', [ProfissionalController::class, 'store'])->name('p
 Route::put('/profissionais/{id}', [ProfissionalController::class, 'update'])->name('profissionais.update');
 Route::get('/profissionais/{id}/edit', [ProfissionalController::class, 'edit'])->name('profissionais.edit');
 Route::delete('/profissionais/{id}', [ProfissionalController::class, 'destroy'])->name('profissionais.destroy');
+
+Route::get('/servicos', [ServicoController::class, 'index'])->name('servicos.index');
+Route::post('/servicos', [ServicoController::class, 'store'])->name('servicos.store');
+Route::put('/servicos/{id}', [ServicoController::class, 'update'])->name('servicos.update');
+Route::get('/servicos/{id}/edit', [ServicoController::class, 'edit'])->name('servicos.edit');
+Route::delete('/servicos/{id}', [ServicoController::class, 'destroy'])->name('servicos.destroy');
 
 require __DIR__.'/auth.php';

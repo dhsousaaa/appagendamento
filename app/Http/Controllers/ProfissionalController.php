@@ -21,14 +21,6 @@ class ProfissionalController extends Controller
         return view('profissionais');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
     // Método para buscar os dados do profissional e retornar para o modal
     public function edit($id)
     {
@@ -51,7 +43,7 @@ class ProfissionalController extends Controller
     
         Profissional::create($request->all());
     
-        return response()->json(['message' => 'Profissional cadastrado com sucesso!'], 200);
+        return response()->json(['message', 'Profissional cadastrado com sucesso!']);
     }
 
     /**

@@ -1,31 +1,30 @@
 @extends('theme/theme');
 
-@section('title', 'Profissionais')
+@section('title', 'Serviços')
 
 @section('content') 
 <div class="ml-5 mr-5 mt-5">
-    <h2>Profissionais</h2>
-    <div class="botoes btn-group mb-2">
-        <button id="novoProfissional" class="btn bg-gradient-purple">Novo</button>
-        <button id="novaAgenda" class="btn bg-gradient-secondary">Cadastrar agenda</button>
+    <h2>Serviços</h2>
+    <div class="botoes">
+        <button id="novoServico" class="btn bg-gradient-purple">Novo</button>
     </div>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <div id="novoModal" style="display: none;">
-        <form id="formNovoProfissional" class="card-body">
+        <form id="formNovoServico" class="card-body">
             @csrf
             <div class="form-group">
                 <label for="nome">Nome</label>
                 <input type="text" class="form-control" id="nome" name="nome" required>
             </div>
             <div class="form-group">
-                <label for="profissao">Profissão</label>
-                <input type="text" class="form-control" id="profissao" name="profissao" required>
+                <label for="profissao">Valor</label>
+                <input type="number"  class="form-control" id="valor" name="valor" required>
             </div>
             <button type="submit" class="btn bg-gradient-purple">Salvar</button>
         </form>
     </div>
     <div id="editarModal" style="display: none;">
-        <form id="formEditarProfissional" class="card-body">
+        <form id="formEditarServico" class="card-body">
             @csrf
             <br />
             <div class="form-group">
@@ -33,8 +32,8 @@
                 <input type="text" class="form-control" id="nome" name="nome" required>
             </div>
             <div class="form-group">
-                <label for="profissao">Profissão</label>
-                <input type="text" class="form-control" id="profissao" name="profissao" required>
+                <label for="profissao">Valor</label>
+                <input type="text" class="form-control" id="valor" name="valor" required>
             </div>
             <button type="submit" class="btn bg-gradient-purple">Salvar</button>
         </form>
@@ -43,7 +42,7 @@
         <form class="form-group container">
             <div class="card-body">
                 @csrf
-                <p>Você tem certeza que deseja excluir este profissional?</p>
+                <p>Você tem certeza que deseja excluir este serviço?</p>
                 <p id="deleteMessage"></p>
             
                 <button id="confirmDelete" class="btn bg-gradient-purple">Excluir</button>
@@ -52,26 +51,28 @@
         </form>
     </div>
     <br />
-    <table id="profissionais-table" class="table table-striped table-bordered">
+
+    <!-- Table servicos -->
+    <table id="servicos-table" class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th>Nome</th>
-                <th>Profissao</th>
+                <th>Valor</th>
                 <th></th>
             </tr>
         </thead>
     </table>
 </div>
 @endsection
+
 @section('js')
 <!-- Importando arquivo JS adicional -->
 <script>
-    
-    $(document).ready(function() {
+$(document).ready(function() {
     // Inicializar iziModal
   $('#novoModal').iziModal({
-      title: 'Novo Profissional',
-      subtitle: 'Preencha os campos para adicionar um novo profissional.',
+      title: 'Novo serviço',
+      subtitle: 'Preencha os campos para adicionar um novo serviço.',
       headerColor: '#6f42c1', // Cor do cabeçalho
       width: 600, // Largura do modal
       overlayClose: false, // Não fecha ao clicar fora
@@ -79,7 +80,7 @@
 
   // Inicializar iziModal
   $('#editarModal').iziModal({
-      title: 'Editar Profissional',
+      title: 'Editar serviço',
       subtitle: 'Altere os campos desejados.',
       headerColor: '#6f42c1',
       width: 600,
@@ -92,36 +93,36 @@
 
       // Fazer requisição AJAX para buscar os dados
       $.ajax({
-          url: `/profissionais/${id}/edit`, // Rota para buscar os dados
+          url: `/servicos/${id}/edit`, // Rota para buscar os dados
           method: 'GET',
           success: function(data) {
               // Preencher os campos do formulário com os dados retornados
-              $('#formEditarProfissional #nome').val(data.nome);
-              $('#formEditarProfissional #profissao').val(data.profissao);
+              $('#formEditarServico #nome').val(data.nome);
+              $('#formEditarServico #valor').val(parseFloat(data.valor).toFixed(2));
 
               // Alterar o evento submit para enviar o update
-              $('#formEditarProfissional').off('submit').on('submit', function(event) {
+              $('#formEditarServico').off('submit').on('submit', function(event) {
                   event.preventDefault(); // Evitar reload
 
                   const formData = $(this).serialize(); // Serializa os dados
 
                   // Enviar requisição AJAX para update
                   $.ajax({
-                      url: `/profissionais/${id}`, // Rota para update
+                      url: `/servicos/${id}`, // Rota para update
                       method: 'PUT',
                       data: formData,
                       success: function(response) {
-                          $('#editarModal').iziModal('close');
-                          $('#formEditarProfissional')[0].reset();
-                          $('#profissionais-table').DataTable().ajax.reload();
+                            $('#editarModal').iziModal('close');
+                            $('#formEditarServico')[0].reset();
+                            $('#servicos-table').DataTable().ajax.reload();
 
-                          iziToast.success({
-                            message:'Profissional atualizado com sucesso!',
-                        });
+                            iziToast.success({
+                                message: `Seviço editado com sucesso!`,
+                            });
                       },
                       error: function(xhr) {
                         iziToast.error({
-                            message:'Erro ao atualizar profissional!',
+                            message: `Erro ao editar serviço.`,
                         });
                       }
                   });
@@ -138,35 +139,36 @@
   });
 
   // Abrir modal ao clicar no botão "Novo"
-  $('#novoProfissional').on('click', function() {
+  $('#novoServico').on('click', function() {
       $('#novoModal').iziModal('open');
   });
 
 
-  $('#formNovoProfissional').on('submit', function(event) {
+  $('#formNovoServico').on('submit', function(event) {
       event.preventDefault(); // Evita o reload da página
 
       const formData = $(this).serialize(); // Serializa os dados do formulário
 
       $.ajax({
-          url: "{{route('profissionais.store') }}",
+          url: "{{route('servicos.store') }}",
           method: 'POST',
           data: formData,
           success: function(response) {
                 // Fechar o modal e resetar o formulário
                 $('#novoModal').iziModal('close');
-                $('#formNovoProfissional')[0].reset();
+                $('#formNovoServico')[0].reset();
 
                 // Atualizar a tabela
-                $('#profissionais-table').DataTable().ajax.reload();
+                $('#servicos-table').DataTable().ajax.reload();
+
                 iziToast.success({
-                    message:'Profissional cadastrado com sucesso!',
+                    message: `Seviço cadastrado com sucesso!`,
                 });
           },
           error: function(xhr) {
-                iziToast.error({
-                    message: `Erro ao cadastrar profissional: ${xhr.responseText}`,
-                });
+            iziToast.error({
+                message: `Erro ao cadastrar serviço!`,
+            });
           }
       });
   });
@@ -191,7 +193,7 @@
       $('#confirmDelete').off('click').on('click', function() {
           // Fazer a requisição AJAX para excluir o profissional
           $.ajax({
-              url: `/profissionais/${id}`, // Rota para excluir o profissional
+              url: `/servicos/${id}`, // Rota para excluir o profissional
               method: 'DELETE',
               headers: {
                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -201,14 +203,15 @@
                     $('#deleteModal').iziModal('close');
 
                     // Atualizar a tabela
-                     $('#profissionais-table').DataTable().ajax.reload();
+                    $('#servicos-table').DataTable().ajax.reload();
+
                     iziToast.success({
-                        message: `Profissional deletado com sucesso!`,
+                        message: `Seviço deletado com sucesso!`,
                     });
               },
               error: function(xhr) {
                 iziToast.error({
-                    message: `Erro ao excluir profissional!`,
+                    message: `Erro ao deletar serviço.`,
                 });
               }
           });
@@ -222,11 +225,11 @@
   });
 
 
-  $('#profissionais-table').DataTable({
+  $('#servicos-table').DataTable({
       
       processing: true,
       serverSide: true,
-      ajax: "{{ route('profissionais.index') }}",
+      ajax: "{{ route('servicos.index') }}",
       language: {
           decimal: ",",
           thousands: ".",
@@ -251,7 +254,13 @@
       },
       columns: [
           { data: 'nome', name: 'nome' },
-          { data: 'profissao', name: 'profissao' },
+          { 
+                data: 'valor', 
+                name: 'valor',
+                render: function (data, type, row) {
+                    return `R$ ${parseFloat(data).toFixed(2)}`; // Formata como float com 2 casas decimais
+                }
+            },
           { 
               data: null, // Não vem do servidor, é gerado localmente
               name: 'actions',
@@ -274,15 +283,4 @@
   });
 });
 </script>
-@if (Session::has('message'))
-    <script>
-        alert('caiu aqui!!');
-        toastr.options = {
-            "progressBar": true,
-            "closeButton": true
-        }
-
-        toastr.success("{{Session::get('message')}}",{timeOut: 1200})
-    </script>
-@endif
 @endsection
