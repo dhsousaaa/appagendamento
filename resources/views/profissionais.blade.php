@@ -142,6 +142,11 @@
       $('#novoModal').iziModal('open');
   });
 
+  $('#novaAgenda').on('click', function() {
+       // Redireciona para a rota 'agendamentos.create'
+       window.location.href = "{{route('agendamentos.create')}}";
+  });
+
 
   $('#formNovoProfissional').on('submit', function(event) {
       event.preventDefault(); // Evita o reload da página
@@ -274,15 +279,4 @@
   });
 });
 </script>
-@if (Session::has('message'))
-    <script>
-        alert('caiu aqui!!');
-        toastr.options = {
-            "progressBar": true,
-            "closeButton": true
-        }
-
-        toastr.success("{{Session::get('message')}}",{timeOut: 1200})
-    </script>
-@endif
 @endsection

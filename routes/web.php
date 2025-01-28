@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProfissionalController;
 use App\Http\Controllers\ServicoController;
+use App\Http\Controllers\AgendamentoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,5 +38,12 @@ Route::post('/servicos', [ServicoController::class, 'store'])->name('servicos.st
 Route::put('/servicos/{id}', [ServicoController::class, 'update'])->name('servicos.update');
 Route::get('/servicos/{id}/edit', [ServicoController::class, 'edit'])->name('servicos.edit');
 Route::delete('/servicos/{id}', [ServicoController::class, 'destroy'])->name('servicos.destroy');
+
+Route::get('/agendamentos', [AgendamentoController::class, 'index'])->name('agendamentos.index');
+Route::get('/agendamentos/create', [AgendamentoController::class, 'create'])->name('agendamentos.create');
+Route::post('/agendamentos', [AgendamentoController::class, 'store'])->name('agendamentos.store');
+Route::put('/agendamentos/{id}', [AgendamentoController::class, 'update'])->name('agendamentos.update');
+Route::get('/agendamentos/{id}/edit', [AgendamentoController::class, 'edit'])->name('agendamentos.edit');
+Route::delete('/agendamentos/{id}', [AgendamentoController::class, 'destroy'])->name('agendamentos.destroy');
 
 require __DIR__.'/auth.php';
