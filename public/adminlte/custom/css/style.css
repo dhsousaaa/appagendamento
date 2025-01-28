@@ -1,0 +1,8 @@
+.nav-sidebar>.nav-item.active {
+    background-color: #6f42c1;
+    color: #fff;
+}
+
+.nav-sidebar>.nav-item.active a {
+    color: #fff;
+}
