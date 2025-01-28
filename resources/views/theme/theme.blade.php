@@ -43,7 +43,7 @@
               </p>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item {{ strpos(Route::currentRouteName(), 'servicos.index') === false ? '' : 'active'}}">
             <a href="{{route('servicos.index')}}" class="nav-link">
               <i class="nav-icon far fa-image"></i>
               <p>
