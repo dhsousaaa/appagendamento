@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProfissionalController;
 use App\Http\Controllers\ServicoController;
 use App\Http\Controllers\AgendamentoController;
+use App\Http\Controllers\AgendaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,5 +46,12 @@ Route::post('/agendamentos', [AgendamentoController::class, 'store'])->name('age
 Route::put('/agendamentos/{id}', [AgendamentoController::class, 'update'])->name('agendamentos.update');
 Route::get('/agendamentos/{id}/edit', [AgendamentoController::class, 'edit'])->name('agendamentos.edit');
 Route::delete('/agendamentos/{id}', [AgendamentoController::class, 'destroy'])->name('agendamentos.destroy');
+
+Route::get('/agendas', [AgendaController::class, 'index'])->name('agendas.index');
+Route::get('/agendas/create', [AgendaController::class, 'create'])->name('agendas.create');
+Route::post('/agendas', [AgendaController::class, 'store'])->name('agendas.store');
+Route::put('/agendas/{id}', [AgendaController::class, 'update'])->name('agendas.update');
+Route::get('/agendas/{id}/edit', [AgendaController::class, 'edit'])->name('agendas.edit');
+Route::delete('/agendas/{id}', [AgendaController::class, 'destroy'])->name('agendas.destroy');
 
 require __DIR__.'/auth.php';

@@ -144,7 +144,7 @@
 
   $('#novaAgenda').on('click', function() {
        // Redireciona para a rota 'agendamentos.create'
-       window.location.href = "{{route('agendamentos.create')}}";
+       window.location.href = "{{route('agendas.create')}}";
   });
 
 
