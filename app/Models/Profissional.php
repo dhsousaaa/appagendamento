@@ -17,4 +17,8 @@ class Profissional extends Model
     protected $fillable = [
         'nome','profissao'
     ];
+
+    public function agendaProfissional() {
+        return $this->hasMany(AgendaProfissional::class, 'profissional_id');
+    }
 }
